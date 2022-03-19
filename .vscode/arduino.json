@@ -1,0 +1,7 @@
+{
+    "configuration": "usbstack=arduino,debug=off",
+    "board": "Seeeduino:samd:seeed_XIAO_m0",
+    "port": "COM3",
+    "sketch": "com.Best-Lightgun.PartsCo.ino",
+    "output": "./builds"
+}
