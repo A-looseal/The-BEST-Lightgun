@@ -1,21 +1,27 @@
 #include "mux_Controller.h" //multiplexer controller
+#include "mcu_Controller.h" // accelerometer/gyroscope controller
+#include "joystick_Controller.h" //psp-2000 joystick controller
 
-byte        //boolean to store state of each button before blasting to usb
-    button_1_bool = false,
-    button_2_bool = false,
-    button_3_bool = false,
-    button_4_bool = false,
-    button_5_bool = false,
-    button_6_bool = false,
-    button_7_bool = false,
-    button_8_bool = false,
-    button_9_bool = false,
-    button_10_bool = false,
-    button_11_bool = false,
-    button_12_bool = false,
-    button_13_bool = false;
 
-//checks the state of each button and updates boolean stores
+void setup_Hardware()
+{
+    // Initialize Joystick Library
+    setup_Buttons();
+    setup_Joystick(); 
+}
+
+/*MOTOR STUFF
+*/
+void pulseMotor(int i, int wait)
+{
+    mux.channel(i);
+    pinMode(SIGNAL_PIN, OUTPUT); // set as output to write on mux channels
+    analogWrite(SIGNAL_PIN, 255);
+    delay(wait);
+    analogWrite(SIGNAL_PIN, 0);
+} // end
+
+// checks the state of each button and updates boolean stores
 void buttonCheck()
 {
     readAllMux();
@@ -52,6 +58,7 @@ void buttonCheck()
     {
         button_4_bool = true;
         Serial.println("button 4 was just pressed");
+        pulseMotor(14,10);
     }
     else
         button_4_bool = false;
@@ -70,6 +77,7 @@ void buttonCheck()
     {
         button_6_bool = true;
         Serial.println("button 6 was just pressed");
+        pulseMotor(14,20);
     }
     else
         button_6_bool = false;
@@ -136,4 +144,10 @@ void buttonCheck()
     }
     else
         button_13_bool = false;
+}
+
+void joystickCheck(){
+    Lx_Angle = analogRead(Lx_Pin);
+    Ly_Angle = analogRead(Ly_Pin);
+    
 }

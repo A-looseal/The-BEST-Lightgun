@@ -1,43 +1,53 @@
-/***********
-╔═══╦═══╗╔═══╦════╦═══╗
-║╔═╗║╔═╗║║╔═╗║╔╗╔╗║╔═╗║
-║╚═╝║║─║║║╚═╝╠╝║║╚╣╚══╗╔══╦══╗
-║╔══╣╚═╝║║╔╗╔╝─║║─╚══╗║║╔═╣╔╗║
-║║─╔╣╔═╗╠╣║║╚╦╗║║╔╣╚═╝║║╚═╣╚╝║
-╚╝─╚╩╝─╚╩╩╝╚═╩╝╚╝╚╩═══╝╚══╩══╝
-Main File: PARTS_Lightgun.ino
+/******************************************
+ ╔╗╔╗      ╔═══╦═══╗╔═══╦════╦═══╗
+╔╝╚╣║      ║╔═╗║╔═╗║║╔═╗║╔╗╔╗║╔═╗║
+╚╗╔╣╚═╦══╗ ║╚═╝║║─║║║╚═╝╠╝║║╚╣╚══╗ ╔══╦══╗
+ ║║║╔╗║║═╣ ║╔══╣╚═╝║║╔╗╔╝─║║─╚══╗║ ║╔═╣╔╗║
+ ║╚╣║║║║═╣ ║║─╔╣╔═╗╠╣║║╚╦╗║║╔╣╚═╝║ ║╚═╣╚╝║
+ ╚═╩╝╚╩══╝ ╚╝─╚╩╝─╚╩╩╝╚═╩╝╚╝╚╩═══╝ ╚══╩══╝
+*******************************************
+The-BEST-Lightgun
+Modern take on the classic Lightgun!
+Designed & Manufactured by The BEST Parts Co ;)
+*******************************************
+Main File: com.Best-Lightgun.PartsCo.ino
 version: 1.0.0
 
+
 */
-
-
-
-#include "src/hardware_Controller.h"
+#include "src/software_Controller.h"
 
 void setup()
 {
     Serial.begin(115200);
-    setup_Buttons();
+    setup_Hardware();
 } // end of setup
 
 void loop()
 {
-    buttonCheck();
+    checkHardwareForUpdates();
+    send_Joystick_Data(5);
     displayData();
-    delay(1000);
 } // end of loop
 
 void displayData() // dumps captured data from array to serial monitor
+{
+    Serial.println();
+    Serial.println("Values from multiplexer:");
+    Serial.println("========================");
+    for (int i = 0; i < 14; i++)
     {
-        Serial.println();
-        Serial.println("Values from multiplexer:");
-        Serial.println("========================");
-        for (int i = 0; i < 14; i++)
-        {
-            Serial.print("button ");
-            Serial.print(i);
-            Serial.print(" = ");
-            Serial.println(muxValues_Digital[i]);
-        }
-        Serial.println("========================");
+        Serial.print("button ");
+        Serial.print(i);
+        Serial.print(" = ");
+        Serial.println(muxValues_Digital[i]);
     }
+    Serial.println("========================");
+    Serial.println("joystick data:");
+    Serial.print("Lx: ");
+    Serial.print(Lx_Angle);
+    Serial.print("\t");
+    Serial.print("Ly: ");
+    Serial.print(Ly_Angle);
+    Serial.println("\t");
+}

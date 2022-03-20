@@ -74,16 +74,7 @@ void digitizeAllMux()
 } // end
 
 
-/*MOTOR STUFF
-*/
-void pulseMotor(int i, int wait)
-{
-    mux.channel(i);
-    pinMode(SIGNAL_PIN, OUTPUT); // set as output to write on mux channels
-    analogWrite(SIGNAL_PIN, 255);
-    delay(wait);
-    analogWrite(SIGNAL_PIN, 0);
-} // end
+
 
 
 /*BUTTON STUFF
